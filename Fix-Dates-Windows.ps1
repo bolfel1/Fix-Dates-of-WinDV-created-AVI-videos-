@@ -1,4 +1,4 @@
-$exiftool = "C:\Users\maxbo\Downloads\exiftool-13.51_64\exiftool-13.51_64\exiftool.exe"
+$exiftool = "Path\to\exiftool.exe"
 $tmpDir = "C:\exiftool_tmp"
 
 Get-ChildItem "F:\*.mp4" | Where-Object { $_.Name -notlike "._*" } | ForEach-Object {
@@ -20,6 +20,7 @@ Get-ChildItem "F:\*.mp4" | Where-Object { $_.Name -notlike "._*" } | ForEach-Obj
     # Zurückkopieren und löschen
     Copy-Item $tmpFile $original -Force
     Remove-Item $tmpFile
+    Remove-Item "C:\exiftool_tmp" -Recurse
     
     Write-Host "Fertig: $($_.Name)"
 }
