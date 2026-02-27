@@ -1,4 +1,91 @@
-# Video Datum Fix – ExifTool Skripte
+# Video Date Fix – ExifTool Scripts
+
+Sets the recording date in MP4 videos based on the filename.  
+Designed for old Mini-DV videos captured with WinDV that have no date in their metadata.
+
+---
+
+## Windows – `fix_dates.ps1`
+
+### Requirements
+
+- Download [ExifTool for Windows](https://exiftool.org) and extract it
+- You might need to Rename `exiftool(-k).exe` to `exiftool.exe`
+- Adjust the path to `exiftool.exe` in the script
+
+### How to run
+
+```powershell
+.\fix_dates.ps1
+```
+
+If you get an "Execution Policy" Error you also need to run 
+```PowerShell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned  # one-time setup
+```
+### 
+What to adjust
+
+| Line              | What to change                                                    |
+| ----------------- | ----------------------------------------------------------------- |
+| `$exiftool = ...` | Path to exiftool.exe                                              |
+| `"F:\*.mp4"`      | Drive letter of your external drive with Videos or Path to Videos |
+
+---
+
+## Mac – `fix_dates.sh`
+
+### Requirements
+
+```bash
+brew install exiftool
+```
+
+### How to run
+
+```bash
+chmod +x fix_dates.sh
+./fix_dates.sh
+```
+
+### What to adjust
+
+| Line                  | What to change                                                                         |
+| --------------------- | -------------------------------------------------------------------------------------- |
+| `/Volumes/DRIVENAME/` | Name of your drive (visible in Finder under "Locations") or Path direct Path to videos |
+
+---
+
+## Linux – `fix_dates.sh`
+
+### Requirements
+
+```bash
+sudo apt install exiftool
+```
+
+### What to adjust
+
+|Line|What to change|
+|---|---|
+|`/mnt/f/`|Mount point of your external drive|
+
+---
+
+## Why the detour via /tmp?
+
+ExifTool cannot create temporary files directly on external drives (permission issue on NTFS/exFAT). Therefore each file is briefly copied to the internal drive, processed there, and then copied back. The temp folder is automatically deleted at the end.
+
+## What gets written?
+
+The following metadata tags are extracted from the filename and written into the video:
+
+- `CreateDate`
+- `ModifyDate`
+- `TrackCreateDate`
+- `MediaCreateDate`
+
+Apple Photos uses these tags to sort videos chronologically by recording date.# Video Datum Fix – ExifTool Skripte
 
 Setzt das Aufnahmedatum in MP4-Videos anhand des Dateinamens.  
 Gedacht für alte Mini-DV Videos die mit WinDV aufgenommen wurden und kein Datum in den Metadaten haben.
